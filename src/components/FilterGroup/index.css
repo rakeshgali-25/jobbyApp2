@@ -1,0 +1,13 @@
+.type-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.types-list {
+  list-style: none;
+  padding-left: 0px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
