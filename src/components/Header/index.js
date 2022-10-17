@@ -13,21 +13,25 @@ class Header extends Component {
 
   render() {
     return (
-      <div className="header-container">
-        <img
-          src="https://assets.ccbp.in/frontend/react-js/logo-img.png"
-          alt="website logo"
-          className="website-logo"
-        />
-        <div className="para-container">
+      <ul className="header-container">
+        <Link to="/" className="link">
+          <li>
+            <img
+              src="https://assets.ccbp.in/frontend/react-js/logo-img.png"
+              alt="website logo"
+              className="website-logo"
+            />
+          </li>
+        </Link>
+        <li className="para-container">
           <Link to="/" className="link">
             <p className="para2">Home</p>
           </Link>
           <Link to="/jobs" className="link">
             <p className="para2">Jobs</p>
           </Link>
-        </div>
-        <div>
+        </li>
+        <li>
           <button
             type="button"
             className="logout-button"
@@ -35,8 +39,8 @@ class Header extends Component {
           >
             logout
           </button>
-        </div>
-      </div>
+        </li>
+      </ul>
     )
   }
 }

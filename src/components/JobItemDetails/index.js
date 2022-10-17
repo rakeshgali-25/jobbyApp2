@@ -87,7 +87,7 @@ class JobItemDetails extends Component {
   }
 
   renderTheLoader = () => (
-    <div className="loader-container">
+    <div className="loader-container" testid="loader">
       <Loader type="ThreeDots" color="#ffffff" height="50" width="50" />
     </div>
   )
@@ -115,7 +115,7 @@ class JobItemDetails extends Component {
             <div>
               <img
                 src={companyLogoUrl}
-                alt="company"
+                alt="job details company logo"
                 className="company-logo"
               />
             </div>
@@ -143,6 +143,7 @@ class JobItemDetails extends Component {
           <hr className="line-break" />
           <div className="lower">
             <h1 className="heading">Description</h1>
+            <a href={companyWebsiteUrl}>Visit</a>
             <p className="para">{jobDescription}</p>
           </div>
           <div className="skills-container">
@@ -166,7 +167,7 @@ class JobItemDetails extends Component {
               <p className="para">{lifeAtCompany.description}</p>
               <img
                 src={lifeAtCompany.imageUrl}
-                alt="company"
+                alt="life at company"
                 className="company-image"
               />
             </div>
@@ -176,7 +177,7 @@ class JobItemDetails extends Component {
           <h1 className="heading">Similar Jobs</h1>
           <ul className="similar-jobs-list">
             {similarJobs.map(each => (
-              <SimilarJob each={each} />
+              <SimilarJob each={each} key={each.id} />
             ))}
           </ul>
         </div>
@@ -189,6 +190,28 @@ class JobItemDetails extends Component {
     return <>{this.renderTheCard()}</>
   }
 
+  renderJobDetailsFailure = () => (
+    <div className="failure-container">
+      <img
+        src="https://assets.ccbp.in/frontend/react-js/failure-img.png"
+        alt="failure view"
+      />
+      <h1 className="heading">Oops! Something Went Wrong</h1>
+      <p className="para">
+        We cannot seem to find the page you are looking for
+      </p>
+      <div>
+        <button
+          type="button"
+          className="login-button"
+          onClick={this.getTheJobData}
+        >
+          Retry
+        </button>
+      </div>
+    </div>
+  )
+
   renderTheDetails = () => {
     const {jobDetailsApiStatus} = this.state
     switch (jobDetailsApiStatus) {
@@ -196,7 +219,8 @@ class JobItemDetails extends Component {
         return this.renderTheLoader()
       case apiStatusConstants.success:
         return this.renderJobDetailsSuccess()
-
+      case apiStatusConstants.failure:
+        return this.renderJobDetailsFailure()
       default:
         return null
     }

@@ -8,6 +8,8 @@
   align-items: center;
   background-color: #202020;
   height: 80px;
+  list-style-type: none;
+  margin: none;
 }
 
 .link {

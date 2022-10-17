@@ -22,7 +22,11 @@ const JobItem = props => {
       <li className="list-item">
         <div className="upper">
           <div>
-            <img src={companyLogoUrl} alt="company" className="company-logo" />
+            <img
+              src={companyLogoUrl}
+              alt="company logo"
+              className="company-logo"
+            />
           </div>
           <div className="job-rating-container">
             <h1 className="heading">{title}</h1>

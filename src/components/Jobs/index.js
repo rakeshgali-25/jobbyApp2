@@ -51,6 +51,7 @@ const apiStatusConstants = {
   success: 'SUCCESS',
   failure: 'FAILURE',
   inProgress: 'IN_PROGRESS',
+  noJob: 'NO_JOB',
 }
 
 class Jobs extends Component {
@@ -115,6 +116,7 @@ class Jobs extends Component {
       const jobsData = await jobsResponse.json()
       const {jobs} = jobsData
       console.log(jobs)
+
       const updatedJobs = jobs.map(each => ({
         companyLogoUrl: each.company_logo_url,
         employmentType: each.employment_type,
@@ -125,10 +127,17 @@ class Jobs extends Component {
         rating: each.rating,
         title: each.title,
       }))
-
+      if (updatedJobs === []) {
+        this.setState({jobsStatus: apiStatusConstants.noJob})
+      } else {
+        this.setState({
+          jobsData: updatedJobs,
+          jobsStatus: apiStatusConstants.success,
+        })
+      }
+    } else {
       this.setState({
-        jobsData: updatedJobs,
-        jobsStatus: apiStatusConstants.success,
+        jobsStatus: apiStatusConstants.failure,
       })
     }
   }
@@ -138,7 +147,7 @@ class Jobs extends Component {
     const {name, profileImageUrl, shortBio} = profileDetails
     return (
       <div className="profile-container">
-        <img src={profileImageUrl} alt={name} />
+        <img src={profileImageUrl} alt="profile" />
         <h1>{name}</h1>
         <p>{shortBio}</p>
       </div>
@@ -153,6 +162,28 @@ class Jobs extends Component {
     const {searchInput} = this.state
     this.setState({searchInput}, this.getTheData)
   }
+
+  jobsStatusFailure = () => (
+    <div className="failure-container">
+      <img
+        src="https://assets.ccbp.in/frontend/react-js/failure-img.png"
+        alt="failure view"
+      />
+      <h1 className="heading">Oops! Something Went Wrong</h1>
+      <p className="para">
+        We cannot seem to find the page you are looking for
+      </p>
+      <div>
+        <button
+          type="button"
+          className="login-button"
+          onClick={this.getTheData}
+        >
+          Retry
+        </button>
+      </div>
+    </div>
+  )
 
   jobsStatusSuccess = () => {
     const {jobsData, searchInput} = this.state
@@ -174,6 +205,7 @@ class Jobs extends Component {
             className="search-icon-container"
             onClick={this.onClickSearchButton}
             type="button"
+            testid="searchButton"
           >
             <BsSearch className="search-icon" />
           </button>
@@ -188,14 +220,25 @@ class Jobs extends Component {
     )
   }
 
+  jobsStatusNoJobs = () => (
+    <div className="failure-container">
+      <img
+        src="https://assets.ccbp.in/frontend/react-js/no-jobs-img.png"
+        alt="no jobs"
+      />
+      <h1 className="heading">No Jobs Found</h1>
+      <p className="para">We could not find any jobs. Try other filters</p>
+    </div>
+  )
+
   profileStatusLoading = () => (
-    <div className="loader-container">
+    <div className="loader-container" testid="loader">
       <Loader type="ThreeDots" color="#ffffff" height="50" width="50" />
     </div>
   )
 
   jobsStatusLoading = () => (
-    <div className="loader-container">
+    <div className="loader-container" testid="loader">
       <Loader type="ThreeDots" color="#ffffff" height="50" width="50" />
     </div>
   )
@@ -226,6 +269,8 @@ class Jobs extends Component {
         return this.jobsStatusSuccess()
       case apiStatusConstants.failure:
         return this.jobsStatusFailure()
+      case apiStatusConstants.noJob:
+        return this.jobsStatusNoJobs()
 
       default:
         return null
@@ -241,12 +286,14 @@ class Jobs extends Component {
       <div className="employment-container">
         <hr />
         <p className="para">Types of employment</p>
-        {employmentTypesList.map(each => (
-          <FilterGroup
-            onChangeEmploymentType={this.onChangeEmploymentType}
-            each={each}
-          />
-        ))}
+        <ul className="unordered-list">
+          {employmentTypesList.map(each => (
+            <FilterGroup
+              onChangeEmploymentType={this.onChangeEmploymentType}
+              each={each}
+            />
+          ))}
+        </ul>
       </div>
       <div className="employment-container">
         <hr />

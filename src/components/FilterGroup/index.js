@@ -43,10 +43,14 @@ const FilterGroup = props => {
 
   const renderEmploymentType = () => (
     <div className="type-container">
-      <p className="para">Employment Type</p>
+      <h1 className="heading">Type of Employment</h1>
       <ul className="types-list">
         {employmentTypesList.map(each => (
-          <li className="checkbox-container" value={each.employmentTypeId}>
+          <li
+            className="checkbox-container"
+            value={each.employmentTypeId}
+            key={each.employmentTypeId}
+          >
             <input type="checkbox" id={each.label} className="checkbox-input" />
             <label htmlFor={each.label} className="para">
               {each.label}
@@ -59,10 +63,14 @@ const FilterGroup = props => {
 
   const renderSalaryRange = () => (
     <div className="type-container">
-      <p className="para">Salary Range</p>
+      <h1 className="heading">Salary Range</h1>
       <ul className="types-list">
         {salaryRangesList.map(each => (
-          <li className="checkbox-container" value={each.salaryRangeId}>
+          <li
+            className="checkbox-container"
+            value={each.salaryRangeId}
+            key={each.salaryRangeId}
+          >
             <input
               type="radio"
               id={each.label}

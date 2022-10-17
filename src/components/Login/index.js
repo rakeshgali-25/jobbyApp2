@@ -1,16 +1,17 @@
 import './index.css'
 import {Component} from 'react'
 import Cookies from 'js-cookie'
+import {Redirect} from 'react-router-dom'
 
 class Login extends Component {
-  state = {username: '', password: ''}
+  state = {username: '', password: '', showErrorMsg: false, errorMsg: ''}
 
   onChangeUsername = event => {
-    this.setState({username: event.target.value})
+    this.setState({username: event.target.value, showErrorMsg: false})
   }
 
   onChangePassword = event => {
-    this.setState({password: event.target.value})
+    this.setState({password: event.target.value, showErrorMsg: false})
   }
 
   onSubmitSuccess = jwtToken => {
@@ -21,6 +22,10 @@ class Login extends Component {
       path: '/',
     })
     history.replace('/')
+  }
+
+  onSubmitFailure = errorMsg => {
+    this.setState({username: '', password: '', showErrorMsg: true, errorMsg})
   }
 
   onClickSubmit = async event => {
@@ -37,11 +42,17 @@ class Login extends Component {
     console.log(data.jwt_token)
     if (response.ok) {
       this.onSubmitSuccess(data.jwt_token)
+    } else {
+      this.onSubmitFailure(data.error_msg)
     }
   }
 
   render() {
-    const {username, password} = this.state
+    const {username, password, showErrorMsg, errorMsg} = this.state
+    const jwtToken = Cookies.get('jwt_token')
+    if (jwtToken !== undefined) {
+      return <Redirect to="/" />
+    }
     return (
       <div className="bg-container">
         <form className="form-container" onSubmit={this.onClickSubmit}>
@@ -52,6 +63,7 @@ class Login extends Component {
               className="website-logo"
             />
           </div>
+
           <div className="label-container">
             <label htmlFor="username" className="label">
               USERNAME
@@ -60,6 +72,7 @@ class Login extends Component {
               type="text"
               className="input"
               placeholder="Username"
+              id="username"
               value={username}
               onChange={this.onChangeUsername}
             />
@@ -72,6 +85,7 @@ class Login extends Component {
               type="password"
               className="input"
               placeholder="Password"
+              id="password"
               value={password}
               onChange={this.onChangePassword}
             />
@@ -80,6 +94,7 @@ class Login extends Component {
             <button type="submit" className="login-button">
               login
             </button>
+            {showErrorMsg && <p className="error-message">*{errorMsg}</p>}
           </div>
         </form>
       </div>
