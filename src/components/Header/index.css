@@ -9,7 +9,8 @@
   background-color: #202020;
   height: 80px;
   list-style-type: none;
-  margin: none;
+  margin: 0px;
+  width: 100%;
 }
 
 .link {

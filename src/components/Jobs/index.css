@@ -19,6 +19,14 @@
   width: 100%;
 }
 
+.profile-container-failed {
+  background-color: black;
+  background-size: cover;
+  border-radius: 20px;
+  padding: 30px;
+  width: 100%;
+}
+
 .hi {
   color: white;
 }
@@ -75,4 +83,16 @@
 
 .search-icon {
   color: #cbd5e1;
+}
+
+.no-jobs-container {
+  width: 100%;
+}
+
+.no-jobs-sub-container {
+  margin-top: 50px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }

@@ -4,7 +4,7 @@ import {Link} from 'react-router-dom'
 import Header from '../Header'
 
 const Home = () => (
-  <>
+  <div className="bg-container-home">
     <Header />
     <div className="home-container">
       <h1 className="big-heading">
@@ -26,7 +26,7 @@ const Home = () => (
         </Link>
       </div>
     </div>
-  </>
+  </div>
 )
 
 export default Home

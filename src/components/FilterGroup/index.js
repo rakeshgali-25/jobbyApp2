@@ -39,49 +39,70 @@ const salaryRangesList = [
 ]
 
 const FilterGroup = props => {
-  const {onChangeEmploymentType} = props
+  const renderEmploymentList = each => {
+    const {onChangeEmploymentType} = props
+    const {employmentTypeId, label} = each
+    const onChangeEmployment = () => {
+      onChangeEmploymentType(each)
+    }
+    return (
+      <li
+        className="checkbox-container"
+        value={employmentTypeId}
+        key={employmentTypeId}
+      >
+        <input
+          type="checkbox"
+          id={label}
+          className="checkbox-input"
+          onChange={onChangeEmployment}
+        />
+        <label htmlFor={each.label} className="para">
+          {label}
+        </label>
+      </li>
+    )
+  }
 
   const renderEmploymentType = () => (
     <div className="type-container">
       <h1 className="heading">Type of Employment</h1>
       <ul className="types-list">
-        {employmentTypesList.map(each => (
-          <li
-            className="checkbox-container"
-            value={each.employmentTypeId}
-            key={each.employmentTypeId}
-          >
-            <input type="checkbox" id={each.label} className="checkbox-input" />
-            <label htmlFor={each.label} className="para">
-              {each.label}
-            </label>
-          </li>
-        ))}
+        {employmentTypesList.map(each => renderEmploymentList(each))}
       </ul>
     </div>
   )
+
+  const renderRange = each => {
+    const {onClickSalaryRange} = props
+    const rangeClicked = () => {
+      onClickSalaryRange(each)
+    }
+    return (
+      <li
+        className="checkbox-container"
+        value={each.salaryRangeId}
+        key={each.salaryRangeId}
+        onClick={rangeClicked}
+      >
+        <input
+          type="radio"
+          id={each.label}
+          className="checkbox-input"
+          name="radio"
+        />
+        <label htmlFor={each.label} className="para">
+          {each.label}
+        </label>
+      </li>
+    )
+  }
 
   const renderSalaryRange = () => (
     <div className="type-container">
       <h1 className="heading">Salary Range</h1>
       <ul className="types-list">
-        {salaryRangesList.map(each => (
-          <li
-            className="checkbox-container"
-            value={each.salaryRangeId}
-            key={each.salaryRangeId}
-          >
-            <input
-              type="radio"
-              id={each.label}
-              className="checkbox-input"
-              name="radio"
-            />
-            <label htmlFor={each.label} className="para">
-              {each.label}
-            </label>
-          </li>
-        ))}
+        {salaryRangesList.map(each => renderRange(each))}
       </ul>
     </div>
   )
